@@ -110,6 +110,35 @@ To deploy Windows 11 in a resource-constrained environment, I bypassed the RAM a
 
 ---
 
+## 🎯 Use Case: Detecting Nmap Network Scan
+
+### 📖 Scenario
+An attacker (Kali Linux) performs network reconnaissance using Nmap to identify open ports and services on the target machine.
+
+### 🎯 Objective
+Detect and analyze reconnaissance activity using Wazuh SIEM and endpoint telemetry.
+
+### 🧰 Data Sources
+- Sysmon (Process Creation, Network Connections)
+- Wazuh Agent Logs
+- pfSense Network Traffic
+
+### ⚠️ Indicators of Activity
+- Multiple connection attempts to different ports
+- Sequential scanning behavior
+- Unusual network activity from a single source
+
+---
+
+## 🧠 MITRE ATT&CK Mapping
+
+- **T1046** – Network Service Discovery  
+- **T1018** – Remote System Discovery  
+
+---
+
+---
+
 ## 🚨 Step 7: Detection & Alerting (Wazuh)
 
 ![Dashboard Status](images/wazuh_dashboard_status.png)  
@@ -121,6 +150,22 @@ To deploy Windows 11 in a resource-constrained environment, I bypassed the RAM a
 ![Alerts](images/wazuh_alerts_dashboard.png)  
 *Generated security alerts.*
 
+## 🔍 Detection Analysis
+
+The simulated Nmap scan triggered multiple alerts in Wazuh.
+
+### 📌 Key Observations:
+- High number of connection attempts within a short time frame
+- Detection of scanning patterns targeting multiple ports
+- Alerts generated from Sysmon network telemetry
+
+### ⚙️ Detection Logic:
+- Wazuh rules identified abnormal network behavior
+- Correlation between process execution (Nmap) and network activity
+- Alerts mapped to reconnaissance techniques
+
+---
+
 ---
 
 ## 📊 Step 8: Log Analysis & Threat Hunting
@@ -130,6 +175,17 @@ To deploy Windows 11 in a resource-constrained environment, I bypassed the RAM a
 
 ![Threat Hunting](images/wazuh_threat_hunting.png)  
 *Threat hunting activity.*
+
+## ⏱️ Attack Timeline
+
+1. Attacker initiated Nmap scan from Kali Linux
+2. Target system received multiple connection attempts
+3. Sysmon logged network activity
+4. Wazuh agent forwarded logs to SIEM
+5. Wazuh generated alerts
+6. Analyst reviewed and investigated the activity
+
+---
 
 ---
 
@@ -153,5 +209,13 @@ To deploy Windows 11 in a resource-constrained environment, I bypassed the RAM a
 
 ---
 
+## 📚 Lessons Learned
+
+- Endpoint telemetry (Sysmon) is critical for visibility
+- Network segmentation reduces attack exposure
+- SIEM requires proper tuning to detect meaningful threats
+- Correlating logs improves detection accuracy
+
+---
 ## 🚀 Conclusion
 This lab demonstrates a complete SOC workflow: from infrastructure setup to attack simulation, detection, and investigation. It reflects real-world blue team operations in a controlled environment.
