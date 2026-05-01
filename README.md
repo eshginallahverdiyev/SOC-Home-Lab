@@ -89,9 +89,6 @@ To deploy Windows 11 in a resource-constrained environment, I bypassed the RAM a
 *Sysmon configuration completed.*
 
 ![Agent Start](images/wazuh_agent_start.png)  
-*Wazuh agent started.*
-
-![Agent Import](images/wazuh_import.png)  
 *Agent registration/import.*
 
 ---
