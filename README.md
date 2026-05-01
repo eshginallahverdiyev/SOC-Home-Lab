@@ -46,9 +46,9 @@ I configured **pfSense** as the gateway for the lab. It manages two network inte
 *Initial pfSense installation.*
 
 ![Partitioning](images/pfsense_partitioning.png)  
-![Partition Scheme](images/pfsense_partition_scheme.png)  
+![Partition](images/pfsense_partition.png)  
 ![Partition Editor](images/pfsense_partition_editor.png)  
-![Partition Final](images/pfsense_partition.png)  
+![Partition Scheme](images/pfsense_partition_scheme.png) 
 *Disk partitioning process.*
 
 ![Interfaces](images/pfsense_interfaces.png)  
