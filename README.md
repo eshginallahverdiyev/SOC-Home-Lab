@@ -178,15 +178,6 @@ Example indicators observed in Wazuh logs:
 
 These events contributed to triggering reconnaissance-related alerts.
 
-### 🧾 Sample Log (Sysmon)
-
-<Event>
-  <EventID>3</EventID>
-  <Image>C:\Program Files (x86)\Nmap\nmap.exe</Image>
-  <DestinationIp>192.168.1.10</DestinationIp>
-  <DestinationPort>80</DestinationPort>
-</Event>
-
 ---
 
 ## ⚖️ False Positive Consideration
