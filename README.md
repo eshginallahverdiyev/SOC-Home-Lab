@@ -19,7 +19,7 @@ The lab is hosted on an isolated Virtual LAN (VMnet2) to simulate an enterprise 
 | **Wazuh Manager** | Ubuntu | SIEM/XDR | 3 GB | 50 GB |
 | **pfSense** | FreeBSD | Firewall/GW | 512 MB | 20 GB |
 | **Windows Target Endpoint**| Windows 11 | Target | 2 GB | 60 GB |
-| **Kali Linux** | Debian | Adversary | 2 GB | 40 GB |
+| **Kali Linux** | Debian | Adversary | 1,5 GB | 40 GB |
 
 **Infrastructure Screenshots:**
 ![Wazuh Settings](images/wazuh_settings.png) ![Kali Settings](images/kali_settings.png) ![pfSense Settings](images/pfsense_settings.png)
