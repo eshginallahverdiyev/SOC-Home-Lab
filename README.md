@@ -3,6 +3,10 @@
 ## 📌 Project Overview
 This comprehensive project demonstrates the architecture, deployment, and operation of a modern Security Operations Center (SOC). It covers the full lifecycle: **Infrastructure Setup**, **Attack Simulation (Red Teaming)**, and **Detection & Analysis (Blue Teaming)** using Wazuh SIEM, pfSense, and Sysmon.
 
+## 📊 Lab Architecture
+
+![Architecture](images/lab_architecture.png)
+
 ---
 
 ## 🏗️ Phase 1: Virtual Infrastructure & Networking
@@ -14,8 +18,8 @@ The lab is hosted on an isolated Virtual LAN (VMnet2) to simulate an enterprise 
 | :--- | :--- | :--- | :--- | :--- |
 | **Wazuh Manager** | Ubuntu | SIEM/XDR | 3 GB | 50 GB |
 | **pfSense** | FreeBSD | Firewall/GW | 512 MB | 20 GB |
-| **Windows Victim**| Windows 11 | Endpoint | 2 GB | 60 GB |
-| **Kali Linux** | Debian | Attacker | 2 GB | 40 GB |
+| **Windows Target Endpoint**| Windows 11 | Target | 2 GB | 60 GB |
+| **Kali Linux** | Debian | Adversary | 2 GB | 40 GB |
 
 **Infrastructure Screenshots:**
 ![Wazuh Settings](images/wazuh_settings.png) ![Kali Settings](images/kali_settings.png) ![pfSense Settings](images/pfsense_settings.png)
@@ -28,9 +32,8 @@ The lab is hosted on an isolated Virtual LAN (VMnet2) to simulate an enterprise 
 Configured as the core router with WAN (NAT) and LAN (VMnet2) interfaces.
 - **Partitioning & Setup:** ![Partitioning](images/pfsense_partitioning.png) ![Setup](images/pfsense_setup.png)
 - **Dashboard & Interfaces:** ![Interfaces](images/pfsense_interfaces.png) ![Dashboard](images/pfsense_web_dashboard.png)
-- **Rule Management:** ![FW Disable](images/pfsense_fw_disable.png) (Tested during initial setup).
 
-### 2. Windows 11 "Victim" Hardening & Telemetry
+### 2. Windows 11 Target Endpoint Hardening & Telemetry
 Deployed Windows 11 by bypassing TPM/RAM requirements and installing monitoring agents.
 - **Bypass Requirements:** ![Bypass](images/win11_bypass_requirements.png)
 - **Connectivity:** ![Ping pfSense](images/win11_ping_pfsense.jpg)
@@ -64,6 +67,16 @@ The attack follows the Cyber Kill Chain: Recon -> Access -> Privilege Escalation
 - **RDP Access:** Logging in as the backdoor user. ![RDP Backdoor](images/kali_xfreerdp_to_backdoor_user.png)
 
 ---
+## 🎯 Attack vs Detection Mapping
+
+| Attack Step | Tool | Detection Source | Alert | MITRE ID |
+|------------|------|-----------------|-------|----------|
+| Recon | Nmap | pfSense logs | Port scan | T1046 |
+| Brute Force | Hydra | Event ID 4625 | Multiple failures | T1110 |
+| Initial Access | RDP | Event ID 4624 | Suspicious login | T1078 |
+| Privilege Escalation | Meterpreter | Sysmon Event ID 1 | New process | T1548 |
+| Persistence | Registry | Sysmon Event ID 13 | Registry change | T1547 |
+| Lateral Movement | WMIExec | Event ID 4688 | Remote execution | T1047 |
 
 ## 🛡️ Phase 4: Detection & Analysis (The Blue Team)
 
@@ -80,6 +93,21 @@ Wazuh SIEM provided full visibility into the attack lifecycle.
 - **NTLM Analysis:** Monitoring RDP login hashes. ![NTLM Logs](images/wazuh_rdp_logon_ntlmhash_logs.png)
 - **Threat Hunting Dashboard:** Mapping all activities to the MITRE ATT&CK framework. ![Hunting Dashboard](images/wazuh_threat_hunting_dashboard.png)
 
+## 🚨 Detection Engineering
+
+### Brute Force Detection
+- Data Source: Windows Security Logs (Event ID 4625)
+- Logic: Multiple failed logons from a single IP
+- Threshold: 5 attempts in 60 seconds
+- MITRE: T1110 (Brute Force)
+
+### Persistence Detection
+- Data Source: Sysmon Event ID 13
+- Logic: Monitor registry modifications in autorun locations
+- Target Path:
+  HKCU\Software\Microsoft\Windows\CurrentVersion\Run
+- MITRE: T1547 (Boot or Logon Autostart Execution)
+
 ---
 
 ## 🧠 Key Skills & Tools
@@ -90,4 +118,32 @@ Wazuh SIEM provided full visibility into the attack lifecycle.
 - **Forensics:** Analyzing NTLM hashes and log correlation.
 
 ## 🏁 Conclusion
-This lab environment provides a robust platform for testing detection engineering. From the initial Nmap scan to the final credential dump, every malicious step was successfully logged and alerted by the Wazuh SIEM, proving the effectiveness of high-fidelity telemetry like Sysmon.
+This lab demonstrates the effectiveness of centralized logging and endpoint telemetry in detecting multi-stage attacks. By correlating Sysmon and Windows logs within Wazuh SIEM, it was possible to identify, trace, and analyze each phase of the attack lifecycle. This highlights the importance of detection engineering and proactive threat hunting in modern SOC environments.
+
+## 📄 Incident Summary
+
+- Initial Access: RDP brute force
+- Privilege Escalation: UAC bypass
+- Persistence: Registry run key
+- Credential Access: NTLM hash exposure via RDP logs
+
+Impact:
+- Unauthorized administrative access gained
+- Persistence mechanism established
+- Potential credential exposure via NTLM logs
+
+### Recommendations
+- Enable account lockout policy
+- Restrict RDP access
+- Monitor registry changes
+
+### Custom Detection Rule (Wazuh)
+
+```xml
+<rule id="100001" level="10">
+  <if_sid>4625</if_sid>
+  <frequency>5</frequency>
+  <timeframe>60</timeframe>
+  <description>Possible RDP brute force attack</description>
+</rule>
+```
