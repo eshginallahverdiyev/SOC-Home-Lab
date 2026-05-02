@@ -1,40 +1,27 @@
-# 🔍 Threat Hunting & Incident Analysis Logbook
+# 🔵 Blue Team: Detection & Threat Hunting
 
-This document details the forensic analysis of the simulated attacks and how they were visualized within **Wazuh SIEM/XDR**.
+Analysis of the attack lifecycle using **Wazuh SIEM/XDR** and **Sysmon**.
 
-## 1. Brute Force Analysis
-The attacker used **Hydra** for an RDP brute-force attack.
+## 🚨 1. Real-Time Alerting
+Wazuh immediately flagged the brute-force and post-exploitation activities.
 
-- **Detection Logic:** Correlation of multiple Event ID 4625 (Failed Logon).
-- **Evidence:**
-![Logon Failures](images/wazuh_logon_failures.png)
-*Visualizing the spike in failed login attempts.*
+- **RDP Brute Force:** ![Logon Failures](images/wazuh_logon_failures.png)
+- **Attacker Attribution:** ![Attacker IP](images/wazuh_attacker_ip.png)
+- **Registry Modification:** ![Registry Alert](images/wazuh_registry_changes.png)
 
----
+## 🔍 2. Forensics & Log Analysis
+Deep dive into endpoint telemetry.
 
-## 2. Post-Exploitation Forensics
-Once the attacker gained access, several indicators of compromise (IoCs) were identified.
+- **System Health:** ![Dashboard Status](images/wazuh_dashboard_status.png) ![Agents](images/wazuh_agents_preview.png)
+- **NTLM Analysis:** Analyzing RDP login hashes. ![NTLM Logs](images/wazuh_rdp_logon_ntlmhash_logs.png)
+- **Process Activity:** ![Log Analysis](images/wazuh_event_logs_analysis.png)
 
-### Registry Persistence
-The creation of a 'Run' key for the reverse shell was caught by Wazuh’s File Integrity Monitoring (FIM).
-![Registry Changes](images/wazuh_registry_changes.png)
+## 🎯 3. Threat Hunting Dashboard
+Mapping alerts to the MITRE ATT&CK framework for strategic analysis.
+![Hunting Dashboard](images/wazuh_threat_hunting_dashboard.png)
 ![Rule Description](images/wazuh_rule_description.png)
 
-### Credential Dumping
-The attacker attempted to dump NTLM hashes.
-![NTLM Logs](images/wazuh_rdp_logon_ntlmhash_logs.png)
-*Tracking NTLM authentication patterns in the logs.*
-
----
-
-## 3. Advanced Hunting with Dashboards
-The **Wazuh Threat Hunting Dashboard** allowed me to map the entire attack to the MITRE ATT&CK framework.
-
-![Threat Hunting](images/wazuh_threat_hunting_dashboard.png)
-*Comprehensive view of the "Kill Chain" activity.*
-
-### Key Findings:
-- **Source IP:** 192.168.1.102 (Kali Linux)
-- **Target User:** Victim
-- **Persistence Method:** Registry Modification (T1547)
-- **Privilege Level:** NT AUTHORITY\SYSTEM (After UAC Bypass)
+## 🛠️ 4. Telemetry Configuration
+Verification of Sysmon and Wazuh agent status.
+- **Sysmon Config:** ![Sysmon Config](images/wazuh_sysmon_config_done.png)
+- **Agent Start:** ![Agent Start](images/wazuh_agent_start.png)
