@@ -15,8 +15,6 @@ The campaign began with an aggressive **Nmap** scan to map the network topology 
 ```bash
 nmap -sS -A -p- 192.168.1.101
 ```
-![Nmap Attack](images/kali_nmap_attack.png)
-
 ### 1.2 Service Analysis
 The scan revealed critical open ports:
 - **Port 3389/TCP (RDP):** Indicates the target is likely a Windows machine and open for remote administration.
