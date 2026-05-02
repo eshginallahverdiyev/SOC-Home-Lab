@@ -147,3 +147,10 @@ Impact:
   <description>Possible RDP brute force attack</description>
 </rule>
 ```
+
+## 📚 Key Takeaways
+
+- Importance of log correlation across multiple sources
+- Detection of brute force via failed log patterns
+- Visibility gained from Sysmon telemetry
+- Mapping attacks to MITRE ATT&CK for structured analysis
