@@ -56,6 +56,10 @@ The attack follows the Cyber Kill Chain: Recon -> Access -> Privilege Escalation
 - **Payload Generation:** Creating a reverse shell with **msfvenom**. ![MSFVenom](images/kali_msfvenom_payload.png)
 - **Delivery:** Hosting the payload via Python web server. ![Python Server](images/kali_pythonwebserver.png)
 
+### Dumping the SAM Database (T1003.002 - Security Account Manager)
+Using **Impacket's Secretsdump**, I remotely extracted the NTLM hashes for all local accounts.
+![Secretsdump](images/kali_impacket_secretsdump.png)
+
 ### 3. Exploitation & Post-Exploitation
 - **Meterpreter Session:** Gaining initial access. ![Meterpreter Shell](images/msfconsole_getting_meterpreter_shell.png)
 - **Privilege Escalation:** Bypassing UAC to reach **SYSTEM** level. ![UAC Bypass](images/meterpreter_bypassauc_getsystem.png) ![GetSystem](images/kali_meterpreter_getsystem.png)
@@ -66,12 +70,6 @@ The attack follows the Cyber Kill Chain: Recon -> Access -> Privilege Escalation
 - **Backdoor Account:** Creating a hidden admin user. ![Backdoor](images/meterpreter_shell_adding_backdoor_user.png)
 - **RDP Access:** Logging in as the backdoor user. ![RDP Backdoor](images/kali_xfreerdp_to_backdoor_user.png)
 
-### 5: Credential Access & Stealthy Execution
-**Objective:** To harvest sensitive data and test lateral movement techniques.
-
-### 6.1 Dumping the SAM Database (T1003.002 - Security Account Manager)
-Using **Impacket's Secretsdump**, I remotely extracted the NTLM hashes for all local accounts.
-![Secretsdump](images/kali_impacket_secretsdump.png)
 
 ---
 ## 🎯 Attack vs Detection Mapping
