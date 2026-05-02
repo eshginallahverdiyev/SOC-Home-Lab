@@ -242,6 +242,6 @@ This lab demonstrates a complete SOC workflow: from infrastructure setup to atta
 ## 🚀 Attack Progression & Deep Dive
 This lab is divided into multiple phases:
 - **Phase 1:** Infrastructure & Reconnaissance (Current Page)
-- **Phase 2:** [Exploitation & Privilege Escalation](ATTACK.md)
-- **Phase 3:** [Detection Analysis & Threat Hunting](BRUTE.md)
+- **Phase 2:** [Exploitation & Privilege Escalation](ADVANCED_EXPLOITATION.md)
+- **Phase 3:** [Detection Analysis & Threat Hunting](DETECTION_STRATEGY.md)
 
