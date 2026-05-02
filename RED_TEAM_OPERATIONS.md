@@ -50,6 +50,7 @@ I initiated a local **Python3 HTTP server** on the attacker machine to serve the
 - **Attacker Side:** `python3 -m http.server 80`
 ![Python Server](images/kali_pythonwebserver.png)
 - **Victim Side:** Gaining the initial Meterpreter session.
+![WmiExec Shell Certutil](images/kali_impacketwmiexec.png)
 ![Meterpreter Shell](images/msfconsole_getting_meterpreter_shell.png)
 
 ---
